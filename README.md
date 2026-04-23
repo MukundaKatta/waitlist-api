@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# waitlist-api
 
-## Getting Started
+Shared waitlist backend for the landing pages in this account.
 
-First, run the development server:
+## Endpoints
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### `POST /api/waitlist`
+
+Accepts CORS from any origin.
+
+```json
+{
+  "email": "me@example.com",
+  "product": "fluentpal"
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Returns `{ "ok": true, "stored": "kv" | "log-only" }`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### `GET /api/signups?product=fluentpal&key=<ADMIN_KEY>`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Returns waitlist entries for the given product. Pass `product=all` to get everything.
 
-## Learn More
+## Storage
 
-To learn more about Next.js, take a look at the following resources:
+Uses Vercel KV (Upstash Redis) when these env vars are set:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `KV_REST_API_URL`
+- `KV_REST_API_TOKEN`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Without them, writes go to Vercel logs only (still functional for testing).
 
-## Deploy on Vercel
+## Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Connect a Vercel KV store in the Vercel dashboard (Storage tab → Create → KV). Env vars are auto-injected.
+2. Set `ADMIN_KEY` to a random string (Project Settings → Environment Variables).
+3. Redeploy.
