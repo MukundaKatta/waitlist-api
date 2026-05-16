@@ -148,7 +148,7 @@ export async function GET(req: NextRequest) {
                 fontWeight: 500,
               }}
             >
-              solo.shop's collection
+              solo.shop&apos;s collection
             </span>
           </div>
           <div

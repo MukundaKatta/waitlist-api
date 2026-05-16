@@ -30,6 +30,10 @@ export default function AdminDashboard({ total, groups, recent }: Props) {
 
   return (
     <div className="space-y-10">
+      <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm font-mono text-neutral-700">
+        total signups: <span className="font-semibold text-neutral-950">{total}</span>
+      </div>
+
       {/* Search */}
       <input
         type="text"
